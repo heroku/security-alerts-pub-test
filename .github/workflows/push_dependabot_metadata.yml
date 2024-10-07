@@ -23,7 +23,6 @@ jobs:
           repository: heroku/security-alerts-action
           token: ${{ steps.action-app-token.outputs.token }}
           ref: main
-          persist-credentials: false
 
       - name: Check file structure
         run: |
@@ -37,3 +36,6 @@ jobs:
           webhook-url: ${{ secrets.SECURITY_ALERTS_WEBHOOK_URL }}
           sa-token: ${{ secrets.SECURITY_ALERTS_TOKEN }}
 
+      - name: Check file again
+        run: |
+          ls -la
