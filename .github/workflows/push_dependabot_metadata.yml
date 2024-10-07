@@ -9,9 +9,6 @@ jobs:
   send-alerts:
     runs-on: pub-hk-ubuntu-24.04-ip
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Create GitHub App Token
         uses: actions/create-github-app-token@v1
         id: new-app-token
