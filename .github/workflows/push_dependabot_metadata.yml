@@ -28,7 +28,6 @@ jobs:
       - name: Check file structure
         run: |
           ls -la
-          ls -la heroku/security-alerts-action
 
       - name: Send data to Security Alerts
         uses: ./
