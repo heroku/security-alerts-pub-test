@@ -25,6 +25,11 @@ jobs:
           ref: main
           persist-credentials: false
 
+      - name: Check file structure
+        run: |
+          ls -la
+          ls -la heroku/security-alerts-action
+
       - name: Send data to Security Alerts
         uses: ./
         with:
@@ -33,5 +38,3 @@ jobs:
           webhook-url: ${{ secrets.SECURITY_ALERTS_WEBHOOK_URL }}
           sa-token: ${{ secrets.SECURITY_ALERTS_TOKEN }}
 
-      - name: Remove private action
-        run: rm -rf security-alerts-action
