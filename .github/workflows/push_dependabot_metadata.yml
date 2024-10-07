@@ -24,6 +24,7 @@ jobs:
           token: ${{ steps.action-app-token.outputs.token }}
           ref: main
           path: security-alerts-action
+          persist-credentials: false
 
       - name: Send data to Security Alerts
         uses: ./security-alerts-action
