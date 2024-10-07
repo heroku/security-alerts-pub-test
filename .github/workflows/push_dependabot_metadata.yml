@@ -17,6 +17,13 @@ jobs:
           private-key: ${{ secrets.SECURITY_ALERTS_GH_APP_PRIVKEY }}
           owner: heroku
 
+      - name: Checkout GitHub Action Repo
+        uses: actions/checkout@v4
+        with:
+          repository: heroku/security-alerts-action
+          ref: main
+          token: ${{ steps.app-token.outputs.token }}
+
       - name: Send data to Security Alerts
         uses: heroku/security-alerts-action@main
         with:
@@ -24,5 +31,3 @@ jobs:
           gh-app-privkey: ${{ secrets.SECURITY_ALERTS_GH_APP_PRIVKEY }}
           webhook-url: ${{ secrets.SECURITY_ALERTS_WEBHOOK_URL }}
           sa-token: ${{ secrets.SECURITY_ALERTS_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
