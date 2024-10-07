@@ -11,18 +11,24 @@ jobs:
     steps:
       - name: Create GitHub App Token
         uses: actions/create-github-app-token@v1
-        id: new-app-token
+        id: action-app-token
         with:
           app-id: ${{ secrets.SECURITY_ALERTS_GH_APP_ID }}
           private-key: ${{ secrets.SECURITY_ALERTS_GH_APP_PRIVKEY }}
           owner: heroku
 
+      - name: Checkout private action
+        uses: actions/checkout@v4
+        with:
+          repository: heroku/security-alerts-action
+          token: ${{ steps.action-app-token.outputs.token }}
+          ref: main
+          path: security-alerts-action
+
       - name: Send data to Security Alerts
-        uses: heroku/security-alerts-action@main
+        uses: ./security-alerts-action
         with:
           gh-app-id: ${{ secrets.SECURITY_ALERTS_GH_APP_ID }}
           gh-app-privkey: ${{ secrets.SECURITY_ALERTS_GH_APP_PRIVKEY }}
           webhook-url: ${{ secrets.SECURITY_ALERTS_WEBHOOK_URL }}
           sa-token: ${{ secrets.SECURITY_ALERTS_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ steps.new-app-token.outputs.token }}
