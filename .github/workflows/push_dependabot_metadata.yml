@@ -23,13 +23,14 @@ jobs:
           repository: heroku/security-alerts-action
           token: ${{ steps.action-app-token.outputs.token }}
           ref: main
+          path: security-alerts-action
 
       - name: Check file structure
         run: |
           ls -la
 
       - name: Send data to Security Alerts
-        uses: ./
+        uses: ./security-alerts-action
         with:
           gh-app-id: ${{ secrets.SECURITY_ALERTS_GH_APP_ID }}
           gh-app-privkey: ${{ secrets.SECURITY_ALERTS_GH_APP_PRIVKEY }}
