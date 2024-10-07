@@ -9,20 +9,16 @@ jobs:
   send-alerts:
     runs-on: pub-hk-ubuntu-24.04-ip
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Create GitHub App Token
         uses: actions/create-github-app-token@v1
-        id: app-token
+        id: new-app-token
         with:
           app-id: ${{ secrets.SECURITY_ALERTS_GH_APP_ID }}
           private-key: ${{ secrets.SECURITY_ALERTS_GH_APP_PRIVKEY }}
           owner: heroku
-
-      - name: Checkout GitHub Action Repo
-        uses: actions/checkout@v4
-        with:
-          repository: heroku/security-alerts-action
-          ref: main
-          token: ${{ steps.app-token.outputs.token }}
 
       - name: Send data to Security Alerts
         uses: heroku/security-alerts-action@main
@@ -31,3 +27,5 @@ jobs:
           gh-app-privkey: ${{ secrets.SECURITY_ALERTS_GH_APP_PRIVKEY }}
           webhook-url: ${{ secrets.SECURITY_ALERTS_WEBHOOK_URL }}
           sa-token: ${{ secrets.SECURITY_ALERTS_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ steps.new-app-token.outputs.token }}
